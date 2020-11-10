@@ -26,21 +26,50 @@ namespace _01_07_Files
         static int[] ReadFile(string path)
         {
             // TODO: implement this method
+            string text = File.ReadAllText(path);
+            string[] array = text.Split();
+            int[] result = new int[array.Length];
+
+            for (int elem = 0; elem < array.Length; ++elem)
+                int.TryParse(array[elem], out result[elem]);
+
+            return result;
         }
 
         static bool CheckArray(int[] array)
         {
             // TODO: implement this method
+            for (int elem = 0; elem < array.Length; ++elem)
+                if (array[elem] < -10 || array[elem] > 10)
+                    return false;
+
+            return true;
         }
         
         static bool[] IntToBoolArray(int[] array)
         {
             // TODO: implement this method
+            bool[] result = new bool[array.Length];
+            for (int elem = 0; elem < array.Length; ++elem)
+            {
+                if (array[elem] >= 0)
+                    result[elem] = true;
+                else result[elem] = false;
+            }
+
+            return result;
         }
         
         static void WriteFile(string path, bool[] array)
         {
             // TODO: implement this method
+            string text = null;
+            for (int elem = 0; elem < array.Length; ++elem)
+            {
+                if (array[elem]) text += "true ";
+                else text += "false ";
+            }
+            File.WriteAllText(path, text);
         }
 
         // you do not need to fill your file, you can work with console input
@@ -57,12 +86,17 @@ namespace _01_07_Files
                 A = ReadFile(inputPath);
                 
                 if (!CheckArray(A))
-                    // TODO: implement this case
+                // TODO: implement this case
+                {
+                    Console.WriteLine("Incorrect Input");
+                    Environment.Exit(0);
+                }
                 
                 L = IntToBoolArray(A);
                 WriteFile(outputPath, L);
             }
             // TODO: catch with meaningful message
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
             
             // do not touch
             ConsoleOutput();
